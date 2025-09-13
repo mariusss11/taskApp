@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: task-app
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:admin}
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/postgres?currentSchema=task_app
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    schemas: task_app
+cors:
+  allowed-origins: "${ALLOWED_ORIGINS:http://localhost:80,http://localhost:81}"
+
+secretsJwtString: AM3N245B6K4J65BNJK6N4KSDFGHJKLM45N6B7VB7N6M54M5N6B
+
+logging:
+  level:
+    org.springframework.security: trace
+
+server:
+  port: 8010

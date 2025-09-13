@@ -1,0 +1,38 @@
+package com.app.group.model;
+
+import com.app.auth.model.User;
+import com.app.task.model.Task;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Table(name = "groups")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Group {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    // Relations
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
+}
