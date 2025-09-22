@@ -1,5 +1,6 @@
 package com.app.auth.controller;
 
+import com.app.auth.model.PasswordChangeRequest;
 import com.app.auth.service.UserService;
 import com.app.auth.service.impl.UserServiceImpl;
 import com.app.dto.CreateUserRequest;
@@ -38,6 +39,11 @@ public class AuthController {
         String fullURL = requestURL + (queryString != null ? "?" + queryString : "");
         log.info("The full URL: {}", fullURL);
         return userService.login(loginRequest);
+    }
+
+    @PostMapping("/changePsw")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangeRequest request){
+        return userService.changePassword(request);
     }
 
 

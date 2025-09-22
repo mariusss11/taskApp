@@ -1,5 +1,6 @@
 package com.app.auth.service;
 
+import com.app.auth.model.PasswordChangeRequest;
 import com.app.auth.model.User;
 import com.app.dto.CreateUserRequest;
 import com.app.dto.LoginRequest;
@@ -17,4 +18,5 @@ public interface UserService {
 
     String disableUser(String email);
 
+    ResponseEntity<?> changePassword(PasswordChangeRequest request);
 }
