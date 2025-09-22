@@ -1,0 +1,9 @@
+name: spring-task-management-app
+services:
+  db:
+    container_name: task-postgres-db
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: adminw

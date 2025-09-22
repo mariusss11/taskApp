@@ -4,7 +4,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:admin}
+    password: ${DB_PASSWORD:adminw}
     url: jdbc:postgresql://${DB_HOST:localhost}:5432/postgres?currentSchema=task_app
   jpa:
     hibernate:
