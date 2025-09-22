@@ -1,11 +1,19 @@
 package com.app.task.controller;
 
-import com.app.task.dto.CreateTaskRequest;
+import com.app.auth.service.CustomUserDetailsService;
+import com.app.task.dto.TaskDTO;
+import com.app.task.model.ChangeTaskRequest;
+import com.app.task.model.CreateTaskRequest;
 import com.app.task.model.Task;
 import com.app.task.service.TaskService;
+import io.jsonwebtoken.Jwt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +36,12 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<Task> getItemById(@PathVariable int itemId) {
-        return ResponseEntity.ok(taskService.getTask(itemId));
+    public ResponseEntity<TaskDTO> getItemById(@PathVariable int taskId) {
+        return ResponseEntity.ok(taskService.getTask(taskId));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Task>> getAllTasks() {
+    public ResponseEntity<List<TaskDTO>> getAllTasks() {
         return ResponseEntity.ok(taskService.getAllTasks());
     }
 
@@ -47,10 +55,19 @@ public class TaskController {
 //        return itemService.getAllEnabledTasksPaginatedBySearch(pageable, query);
 //    }
 
+    @GetMapping("/users/{userId}/tasks")
+    public ResponseEntity<List<TaskDTO>> getUserTasks(@PathVariable int userId) {
+        return ResponseEntity.ok(taskService.getUsersTasks(userId));
+    }
 
     @GetMapping("/allEnabled")
-    public ResponseEntity<List<Task>> getAllEnabledTasks() {
+    public ResponseEntity<List<TaskDTO>> getAllEnabledTasks() {
         return ResponseEntity.ok(taskService.getAllEnabledTasks());
+    }
+
+    @PutMapping("/changeStatus")
+    public ResponseEntity<Task> changeTaskStatus(@RequestBody ChangeTaskRequest request) {
+        return ResponseEntity.ok(taskService.changeTaskStatus(request));
     }
 
 

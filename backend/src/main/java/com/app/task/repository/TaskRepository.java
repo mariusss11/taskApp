@@ -10,5 +10,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     List<Task> findAllByIsEnabledTrue();
 
+    List<Task> findAllByIsEnabledTrueAndUserId(int userId);
+
     Optional<Task> findByTitle(String title);
 }

@@ -1,18 +1,17 @@
 package com.app.auth.controller;
 
 import com.app.auth.model.PasswordChangeRequest;
+import com.app.auth.model.User;
 import com.app.auth.service.UserService;
 import com.app.auth.service.impl.UserServiceImpl;
 import com.app.dto.CreateUserRequest;
 import com.app.dto.LoginRequest;
+import com.app.dto.Response;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -44,6 +43,11 @@ public class AuthController {
     @PostMapping("/changePsw")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangeRequest request){
         return userService.changePassword(request);
+    }
+
+    @GetMapping("/whoami")
+    public Response<User> whoami() {
+        return userService.whoami();
     }
 
 

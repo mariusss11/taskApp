@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/auth/whoami").hasAnyAuthority(ADMIN_ROLE, USER_ROLE)
 
                         .requestMatchers(HttpMethod.GET,"/api/tasks/**").hasAnyAuthority(ADMIN_ROLE, USER_ROLE)
                         .requestMatchers(HttpMethod.POST,"/api/tasks/**").hasAnyAuthority(ADMIN_ROLE, USER_ROLE)

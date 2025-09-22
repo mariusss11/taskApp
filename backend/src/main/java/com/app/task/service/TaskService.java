@@ -1,11 +1,12 @@
 package com.app.task.service;
 
 import com.app.auth.model.User;
-import com.app.auth.repository.UserRepository;
 import com.app.auth.service.UserService;
 import com.app.group.model.Group;
 import com.app.security.jwt.JwtUtils;
-import com.app.task.dto.CreateTaskRequest;
+import com.app.task.dto.TaskDTO;
+import com.app.task.model.ChangeTaskRequest;
+import com.app.task.model.CreateTaskRequest;
 import com.app.task.exception.InvalidTaskException;
 import com.app.task.exception.TaskNotFoundException;
 import com.app.task.model.Task;
@@ -14,8 +15,6 @@ import com.app.task.repository.TaskRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -52,17 +51,18 @@ public class TaskService {
      * Method just for the admin and librarian
      * @return all the items
      */
-    public List<Task> getAllTasks() {
-        log.info("Returning all tasks");
-        return taskRepository.findAll();
+    public List<TaskDTO> getAllTasks() {
+        log.info("Returning all tasks as DTOs");
+        return TaskDTO.toDtos(taskRepository.findAll());
     }
 
     /**
      * Method for the user
      * @return all the enabled items
      */
-    public List<Task> getAllEnabledTasks() {
-        return taskRepository.findAllByIsEnabledTrue();
+    public List<TaskDTO> getAllEnabledTasks() {
+        log.info("Returning all enabled tasks as DTOs");
+        return TaskDTO.toDtos(taskRepository.findAllByIsEnabledTrue());
     }
 
     /**
@@ -132,12 +132,34 @@ public class TaskService {
     }
 
 
-    public Task getTask(int taskId) {
-        return getTaskById(taskId);
+    public TaskDTO getTask(int taskId) {
+        return TaskDTO.toDto(getTaskById(taskId));
     }
 
     private Task getTaskById(int taskId) {
         return taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task not found"));
+    }
+
+    public Task changeTaskStatus(ChangeTaskRequest request) {
+        log.info("Changing task {} status to {}", request.getTaskId(), request.getNewStatus());
+
+        // getting the task
+        Task taskToChange = getTaskById(request.getTaskId());
+
+        // check the new status
+        TaskStatus.isValid(request.getNewStatus());
+
+        // set the new status
+        taskToChange.setStatus(request.getNewStatus());
+
+        // save the new status
+        return taskRepository.save(taskToChange);
+    }
+
+    public List<TaskDTO> getUsersTasks(int userId) {
+        log.info("Returning the tasks created  by the user with id #{}", userId);
+        List<Task> allByIsEnabledTrueAndUserId = taskRepository.findAllByIsEnabledTrueAndUserId(userId);
+        return TaskDTO.toDtos(allByIsEnabledTrueAndUserId);
     }
 }
