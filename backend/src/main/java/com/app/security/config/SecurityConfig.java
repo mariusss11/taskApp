@@ -48,10 +48,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/groups/**").hasAnyAuthority(ADMIN_ROLE, USER_ROLE)
 
 
+                        // allow preflight for all endpoints
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
 
+                        // ✅ Swagger (no method restriction → works on all browsers/OS)
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
 
                         .anyRequest().denyAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

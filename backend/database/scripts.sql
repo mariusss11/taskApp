@@ -6,7 +6,7 @@ SELECT * FROM task_app.tasks;
 
 SELECT * FROM task_app.groups;
 
-SELECT 
+SELECT d
 	g.name,
 	u.email,
 	t.title,

@@ -24,3 +24,5 @@ logging:
 
 server:
   port: 8010
+
+#  the swagger ui -> http://localhost:8010/swagger-ui/index.html
