@@ -14,7 +14,7 @@ spring:
     locations: classpath:db/migration
     schemas: task_app
 cors:
-  allowed-origins: "${ALLOWED_ORIGINS:http://localhost:80,http://localhost:81}"
+  allowed-origins: "${ALLOWED_ORIGINS:http://localhost:80,http://localhost:81,http://localhost:5173}"
 
 secretsJwtString: AM3N245B6K4J65BNJK6N4KSDFGHJKLM45N6B7VB7N6M54M5N6B
 
