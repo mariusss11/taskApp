@@ -22,6 +22,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link UserService} for managing user authentication
+ * and user-related operations.
+ */
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
@@ -30,6 +34,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
 
+    /**
+     * Constructs a UserServiceImpl with required dependencies.
+     *
+     * @param userRepository  Repository for User persistence
+     * @param passwordEncoder PasswordEncoder for hashing passwords
+     * @param jwtUtils        Utility class for generating and validating JWT tokens
+     */
     @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
@@ -37,20 +48,29 @@ public class UserServiceImpl implements UserService {
         this.jwtUtils = jwtUtils;
     }
 
+    // -------------------------------------------------------------------------
+    // 🔹 USER REGISTRATION
+    // -------------------------------------------------------------------------
+
+    /**
+     * Registers a new user in the system.
+     *
+     * @param createUserRequest DTO containing registration details
+     * @return ResponseEntity with success or error message
+     */
     @Override
     public ResponseEntity<String> signUp(CreateUserRequest createUserRequest) {
         log.info("Inside signUp()");
         Optional<User> existingUser = userRepository.findByEmail(createUserRequest.getEmail());
 
-        if (existingUser.isPresent())
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+        if (existingUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Username already taken");
+        }
 
         UserRole assignedUserRole = (createUserRequest.getRole() == null) ?
                 UserRole.USER : UserRole.valueOf(createUserRequest.getRole());
 
-        //save the user
         User savedUser = userRepository.save(
                 User.builder()
                         .name(createUserRequest.getName())
@@ -62,37 +82,47 @@ public class UserServiceImpl implements UserService {
                         .isEnabled(true)
                         .build()
         );
+
         log.info("The new user: {}", savedUser);
         return ResponseEntity.ok("User registered successfully");
     }
 
+    // -------------------------------------------------------------------------
+    // 🔹 USER LOGIN
+    // -------------------------------------------------------------------------
+
+    /**
+     * Authenticates a user and generates a JWT token.
+     *
+     * @param loginRequest DTO containing email and password
+     * @return ResponseEntity containing JWT token and user info or error
+     */
     @Override
     public ResponseEntity<?> login(LoginRequest loginRequest) {
         log.info("Inside login()");
 
         Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
-
-        if (optionalUser.isEmpty())
+        if (optionalUser.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Response.builder()
-                            .message("User not found").build());
+                    .body(Response.builder().message("User not found").build());
+        }
 
         User user = optionalUser.get();
 
-        if (!user.isEnabled())
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+        if (!user.isEnabled()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Response.builder().message("User is disabled").build());
+        }
 
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             log.warn("Invalid Password");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Response.builder().message("Invalid password").build());
         }
 
         String token = jwtUtils.generateToken(user.getEmail());
-
         log.info("Returning the login info");
+
         return ResponseEntity.ok(
                 Response.<User>builder()
                         .message(token)
@@ -101,67 +131,69 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    @Override
-    public User getCurrentLoggedInUser() {
-        String  username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(username)
-                .orElseThrow(()-> new UserNotFoundException("User not found"));
-    }
-
-    @Override
-    public String disableUser(String email) {
-        User userToDisable = getUserByEmail(email);
-        userToDisable.setEnabled(false);
-        userRepository.save(userToDisable);
-        return "Disabled successfully the user with the email: " + email;
-    }
+    // -------------------------------------------------------------------------
+    // 🔹 PASSWORD MANAGEMENT
+    // -------------------------------------------------------------------------
 
     /**
-     * The only problem for this thing is that the old JWT that the user had
-     * from the previous login maybe be still active and this could be a future problem
-     * @param request contains the newPassword
-     * @return the new user object
+     * Changes the password of an existing user.
+     *
+     * @param request DTO containing old and new passwords
+     * @return ResponseEntity with updated user or error message
      */
     @Override
     public ResponseEntity<?> changePassword(PasswordChangeRequest request) {
         log.info("Changing user's password");
 
         Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
-
-        // check if the user exists
-        if (optionalUser.isEmpty())
+        if (optionalUser.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Response.builder()
-                            .message("User not found").build());
+                    .body(Response.builder().message("User not found").build());
+        }
 
         User user = optionalUser.get();
-
-        // check if the user is enabled
-        if (!user.isEnabled())
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
+        if (!user.isEnabled()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Response.builder().message("User is disabled").build());
+        }
 
-        // check if the password matches
         if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
             log.info("Invalid Password");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Response.builder().message("Invalid password").build());
         }
-        // if everything checks out good, the password can be changed
 
-        // changing user's password
-        user.setPassword(passwordEncoder.encode((request.getNewPassword())));
-
-        // save changes
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         return ResponseEntity.ok(userRepository.save(user));
     }
 
+    // -------------------------------------------------------------------------
+    // 🔹 CURRENT USER INFO
+    // -------------------------------------------------------------------------
+
+    /**
+     * Retrieves the currently authenticated user.
+     *
+     * @return User object representing the logged-in user
+     */
+    @Override
+    public User getCurrentLoggedInUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    /**
+     * Returns information about the currently authenticated user.
+     *
+     * @return Response containing the current User
+     */
     @Override
     public Response<User> whoami() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Auth: {}",  auth);
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("Auth: {}", auth);
+
+        String email = auth.getName();
         User user = getUserByEmail(email);
 
         return Response.<User>builder()
@@ -171,6 +203,34 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    // -------------------------------------------------------------------------
+    // 🔹 USER MANAGEMENT
+    // -------------------------------------------------------------------------
+
+    /**
+     * Disables a user account by email.
+     *
+     * @param email Email of the user to disable
+     * @return Success message
+     */
+    @Override
+    public String disableUser(String email) {
+        User userToDisable = getUserByEmail(email);
+        userToDisable.setEnabled(false);
+        userRepository.save(userToDisable);
+        return "Disabled successfully the user with the email: " + email;
+    }
+
+    // -------------------------------------------------------------------------
+    // 🔹 INTERNAL HELPERS
+    // -------------------------------------------------------------------------
+
+    /**
+     * Retrieves a user by email or throws UserNotFoundException.
+     *
+     * @param email Email of the user
+     * @return User object
+     */
     private User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with the email: " + email));
