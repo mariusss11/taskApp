@@ -87,6 +87,7 @@ public class TaskService {
                 .group(Group.builder().id(request.getGroupId()).build())
                 .user(user)
                 .status(TaskStatus.NOT_DONE.dbValue())
+                .isEnabled(true)
                 .build();
 
         log.info("Saving the new task: {}", newTask);
