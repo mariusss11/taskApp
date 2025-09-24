@@ -154,7 +154,7 @@ public class TaskService {
         taskToChange.setStatus(request.getNewStatus());
 
         // save the new status
-        return taskRepository.save(taskToChange);
+        return getTaskById(request.getTaskId());
     }
 
     public List<TaskDTO> getUsersTasks(int userId) {
