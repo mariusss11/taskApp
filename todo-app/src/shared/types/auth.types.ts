@@ -12,4 +12,5 @@ export interface CreateAccountType{
 export interface Auth{
     username: string
     password: string
+    email: string
 }
