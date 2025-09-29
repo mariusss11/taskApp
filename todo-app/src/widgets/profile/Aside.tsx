@@ -8,7 +8,7 @@ import { useRef } from "react";
 import LogOutButton from "../../shared/ui/profile/aside/LogOutButton";
 import ProfileLinkButton from "../../shared/ui/profile/aside/ProfileLinkButton";
 
-const Aside = ({username, paths}:AsideType): React.JSX.Element => {
+const Aside = ({paths}:AsideType): React.JSX.Element => {
 
   const asideRef = useRef(null)
 
@@ -22,18 +22,18 @@ const Aside = ({username, paths}:AsideType): React.JSX.Element => {
         <div className="aside-top__footer">
             <div className="aside-footer__top">
                 <AsideTitle text="Tasks" />
-                <Link className="profile-link aside-link" to={`/profile/${username}/tasks-list`}>Tasks list</Link>  
+                <Link className="profile-link aside-link" to={`/profile/tasks-list`}>Tasks list</Link>  
             </div>
             <div className="aside-footer__bottom">
                 <AsideTitle text="Task groups" />
-                <TaskGroups paths={paths} username={username} />
+                <TaskGroups paths={paths}/>
             </div>
             
         </div>
       </div>
       <div className="aside-bottom">
         <LogOutButton />
-        <ProfileLinkButton username={username} />
+        <ProfileLinkButton/>
       </div>
     </aside>
   );

@@ -10,6 +10,7 @@ class AuthService{
             if(response.status == 200){
                 const responseData = response.data
                 localStorage.setItem("userAuth", responseData.message)
+                return "Success"
             }
         } catch (error) {
             console.error(error)
@@ -18,13 +19,13 @@ class AuthService{
 
     async register(username:string, email:string, password: string){
         try {
-                const response = await axios.post("http://localhost:8010/api/auth/",{
+                const response = await axios.post("http://localhost:8010/api/auth/register",{
                 name:username,
                 email:email,
                 password:password
             })
             if(response.status == 200){
-                await this.login(email, password)
+                return await this.login(email, password)
             }
         } catch (error) {
             console.error(error)

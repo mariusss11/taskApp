@@ -3,15 +3,20 @@ import LogIn from "../pages/auth/LogIn"
 import SignUp from "../pages/auth/SignUp"
 import "./App.css"
 import StartPage from "../pages/profile/StartPage"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
 
 const App = ():React.JSX.Element => {
-    return <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<LogIn />}/>
-            <Route path="/sign-up" element={<SignUp />}/>
-            <Route path="/profile" element={<StartPage/>}/>
-        </Routes>
-    </BrowserRouter>
+    return <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<LogIn />}/>
+                <Route path="/sign-up" element={<SignUp />}/>
+                <Route path="/profile" element={<StartPage/>}/>
+            </Routes>
+        </BrowserRouter>
+    </QueryClientProvider>
 }
 
 export default App

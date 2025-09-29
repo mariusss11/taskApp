@@ -47,7 +47,7 @@ const Content = ():React.JSX.Element => {
 
 const StartPage = (): React.JSX.Element => {
   return (
-    <PageLayout username="Hello" paths={["study", "user"]} content={<Content />} />
+    <PageLayout content={<Content />} />
   );
 };
 

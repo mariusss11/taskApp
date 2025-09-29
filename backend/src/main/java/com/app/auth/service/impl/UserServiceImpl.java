@@ -101,6 +101,8 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<?> login(LoginRequest loginRequest) {
         log.info("Inside login()");
 
+        log.info("Request: {}", loginRequest);
+
         Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
         if (optionalUser.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

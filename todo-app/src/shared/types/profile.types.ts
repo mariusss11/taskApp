@@ -1,6 +1,5 @@
 export interface AsideType{
-    username: string
-    paths: string[] | null
+    paths: Group[] | null
 }
 
 export interface AsideRef{
@@ -8,7 +7,10 @@ export interface AsideRef{
 }
 
 export interface PageLaoutType{
-    username: string
-    paths: string[] | null
     content: React.JSX.Element
+}
+
+export interface Group{
+    id: number,
+    name: string
 }

@@ -1,10 +1,10 @@
 import GroupsItem from "../../shared/ui/profile/aside/GroupsItem"
-import type { AsideType } from "../../shared/types/profile.types"
+import type { AsideType, Group } from "../../shared/types/profile.types"
 
-const TaskGroups = ({username, paths}:AsideType) => {
+const TaskGroups = ({paths}:AsideType) => {
     return <ul className="task-groups">
-        {paths?.map((link:string, id: number) =>
-            <GroupsItem key={id} username={username} path={link}/>
+        {paths?.map((link:Group) =>
+            <GroupsItem key={link.id} path={link.name}/>
         )}
     </ul>
 }
