@@ -32,6 +32,10 @@ class AuthService{
         }
         
     }
+
+    async logout(){
+        localStorage.removeItem("userAuth")
+    }
 }
 
 export default AuthService

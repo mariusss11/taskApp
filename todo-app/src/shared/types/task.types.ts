@@ -3,7 +3,6 @@ export interface TaskType{
     description: string | undefined
     deadline: string | undefined
     group: string | undefined
-    progress: string | undefined
 }
 
 export interface TaskFormType extends TaskType{
@@ -11,7 +10,7 @@ export interface TaskFormType extends TaskType{
     groups: number[] | undefined
 }
 
-export interface TaskFormFieldType{
+export interface FormFieldType{
     labelText: string
     inputElement: React.JSX.Element
     name: string
