@@ -42,9 +42,9 @@ public class User {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     // Relations
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private Group groups;
+    private List<Group> groups;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
