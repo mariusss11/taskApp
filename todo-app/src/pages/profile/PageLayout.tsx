@@ -10,10 +10,10 @@ const PageLayout = ({content}:PageLaoutType) => {
     const groupsQuery = useQuery({queryKey: ["groups"], queryFn: async () => await groupService.getGroups()})
     const auth = useCheckAuth()
     const paths:Group[] = groupsQuery.data?.map((item: Group) => {
-        return [{
+        return {
             id:item.id,
             name: item.name
-        }]
+        }
     })
     if(auth){
         return <div className="profile-page__layout">
