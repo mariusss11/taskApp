@@ -50,7 +50,7 @@ const Aside = ({ paths }: AsideType): React.JSX.Element => {
       </aside>
       <CustomModal
         title="Create group"
-        form={<CreateGroupForm />}
+        form={<CreateGroupForm closeModal={modalProperties.closeModal} />}
         closeModal={modalProperties.closeModal}
         modalIsOpen={modalProperties.modalIsOpen}
       />
