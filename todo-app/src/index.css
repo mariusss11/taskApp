@@ -4,6 +4,10 @@
 	border: none;
 }
 
+body{
+	overflow: hidden;
+}
+
 *,
 *::before,
 *::after {

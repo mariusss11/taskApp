@@ -10,6 +10,7 @@ export interface AsideRef{
 
 export interface PageLaoutType{
     content: React.JSX.Element
+    paths: Group[] | null
 }
 
 export interface Group{

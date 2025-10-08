@@ -4,6 +4,7 @@ import SignUp from "../pages/auth/SignUp"
 import "./App.css"
 import StartPage from "../pages/profile/StartPage"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import TasksListPage from "../pages/profile/TasksListPage"
 
 const queryClient = new QueryClient()
 
@@ -14,6 +15,7 @@ const App = ():React.JSX.Element => {
                 <Route path="/" element={<LogIn />}/>
                 <Route path="/sign-up" element={<SignUp />}/>
                 <Route path="/profile" element={<StartPage/>}/>
+                <Route path="/profile/tasks-list" element={<TasksListPage />}/>
             </Routes>
         </BrowserRouter>
     </QueryClientProvider>
