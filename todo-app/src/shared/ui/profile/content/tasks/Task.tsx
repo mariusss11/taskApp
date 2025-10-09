@@ -27,8 +27,8 @@ const Task = ({title,description, groupName, creationDate, progress}: Omit<ITask
             </div>
         </div>
         <div ref={fullInfoRef} className="task-detailed__info">
-            <p className="task description">{description}</p>
-            <p className="group">{groupName}</p>
+            <p className="task-description">{description}</p>
+            <p className="group">Group: {groupName}</p>
         </div>
     </div>
 }

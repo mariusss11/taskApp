@@ -9,10 +9,6 @@ export interface TaskType{
 
 
 export interface TaskFormType{
-    title: string | undefined
-    description: string | undefined
-    deadline: string | undefined
-    group: number | undefined
     groups: Group[] | undefined
     closeModal: () => void
 }

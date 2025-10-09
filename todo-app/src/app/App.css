@@ -130,6 +130,7 @@ body{
   color: #fff;
   transition: color .3s ease-in-out;
   padding-left: 30px;
+  text-transform: capitalize;
 }
 
 .groups-item__link:hover{
@@ -139,7 +140,6 @@ body{
 .groups-item:not(:last-child){
   margin-bottom: 10px;
 }
-
 .close-aside.active{
   position: fixed;
   left: 20px;
@@ -554,4 +554,26 @@ body{
 
 .tasks-list__item{
   margin-top: 30px;
+}
+
+.task-description{
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.group{
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+/* create task */
+
+.create-task__button{
+  font-size: 18px;
+  color: #757575;
+  transition: color .3s ease-in-out;
+}
+
+.create-task__button:hover{
+  color: #BDBDBD;
 }

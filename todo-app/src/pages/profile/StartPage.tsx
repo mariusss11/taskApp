@@ -23,10 +23,6 @@ const Content = ({groups}:ContentType): React.JSX.Element => {
         form={
           <TaskForm
             closeModal={modalProperties.closeModal}
-            title={undefined}
-            description={undefined}
-            deadline={undefined}
-            group={undefined}
             groups={groups}
           />
         }
