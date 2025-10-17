@@ -22,9 +22,9 @@ const Filter = ():React.JSX.Element => {
         </button>
         <form ref={filterFormRef} onSubmit={handleSubmit(onSubmit)} className="filter-form">
             <div className="filter-content">
-                <div className="filter-radios">
+                <div className="radios">
                     <ProgressRadio type="done" inputElement={<input value="DONE" className="progress-radio__input" type="radio" {...register("progress")} id="done" />} />
-                    <ProgressRadio type="in-progress" inputElement={<input value="IN_PROGRESS" className="progress-radio__input" type="radio" {...register("progress")} id="in-progress" />}/>
+                    <ProgressRadio type="in-process" inputElement={<input value="IN_PROCESS" className="progress-radio__input" type="radio" {...register("progress")} id="in-process" />}/>
                     <ProgressRadio type="not-done" inputElement={<input value="NOT_DONE" className="progress-radio__input" type="radio" {...register("progress")} id="not-done" />}/>
                 </div>
                 <div className="filter-dates">

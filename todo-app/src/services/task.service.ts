@@ -2,10 +2,12 @@ import axios from "axios"
 import type { TaskType } from "../shared/types/task.types"
 
 class TaskService{
+    private path = "http://localhost:8010/api/tasks/"
+
     async createTask(title: string, description: string, deadline: string, groupId: number){
         const token = localStorage.getItem("userAuth")
         try {
-            const response = await axios.post("http://localhost:8010/api/tasks/create", {
+            const response = await axios.post(`${this.path}create`, {
                 title: title,
                 description: description,
                 deadline: deadline,
@@ -27,7 +29,7 @@ class TaskService{
     async getAllEnabledTasks(){
         const token = localStorage.getItem("userAuth")
         try {
-            const response = await axios.get("http://localhost:8010/api/tasks/allEnabled",{
+            const response = await axios.get(`${this.path}allEnabled`,{
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -36,6 +38,7 @@ class TaskService{
                 const responseData = response.data
                 const organizedData = responseData.map((task) => {
                     return {
+                        id: task.id,
                         title: task.title,
                         description: task.description,
                         deadline: task.deadline,
@@ -60,6 +63,23 @@ class TaskService{
 
                 return filteredData
             }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    async changeTaskStatus(id:number, status: string){
+        try {
+            const token = localStorage.getItem("userAuth")
+            const response = await axios.put(`${this.path}changeStatus`,{
+                taskId: id,
+                newStatus: status
+            },
+            {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.status
         } catch (error) {
             console.error(error)
         }

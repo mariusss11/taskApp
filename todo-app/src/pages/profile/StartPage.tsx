@@ -2,14 +2,9 @@ import PageLayout from "./PageLayout";
 import TaskForm from "../../widgets/profile/TaskForm";
 import CustomModal from "../../shared/ui/CustomModal";
 import useModal from "../../shared/custom-hooks/useModal";
-import type { Group } from "../../shared/types/profile.types";
-import useGroups from "../../shared/custom-hooks/useGroups";
 
-type ContentType = {
-  groups: Group[]
-}
 
-const Content = ({groups}:ContentType): React.JSX.Element => {
+const Content = (): React.JSX.Element => {
   const modalProperties = useModal()
 
   return (
@@ -23,7 +18,6 @@ const Content = ({groups}:ContentType): React.JSX.Element => {
         form={
           <TaskForm
             closeModal={modalProperties.closeModal}
-            groups={groups}
           />
         }
         closeModal={modalProperties.closeModal}
@@ -34,9 +28,7 @@ const Content = ({groups}:ContentType): React.JSX.Element => {
 };
 
 const StartPage = (): React.JSX.Element => {
-  const paths = useGroups()
-
-  return <PageLayout paths={paths} content={<Content groups={paths} />} />;
+  return <PageLayout content={<Content />} />;
 };
 
 export default StartPage;

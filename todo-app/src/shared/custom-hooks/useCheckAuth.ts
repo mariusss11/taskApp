@@ -1,9 +1,10 @@
-const useCheckAuth = ():boolean => {
-    const token = localStorage.getItem("userAuth")
-    if(token!=null){
-        return true
-    }
-    return false
-}
+const useCheckAuth = (): boolean => {
+  const token = localStorage.getItem("userAuth");
+  if (token != null) {
+    return true;
+  }
 
-export default useCheckAuth
+  return false;
+};
+
+export default useCheckAuth;
