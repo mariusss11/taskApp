@@ -192,4 +192,35 @@ public class TaskService {
         return taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with ID: " + taskId));
     }
+
+// -------------------------------------------------------------------------
+// 🔹 ADMIN METHODS
+// -------------------------------------------------------------------------
+
+    /**
+     * Enables or disables a task by ID.
+     *
+     * @param taskId ID of the task
+     * @param enabled true to enable, false to disable
+     * @return the updated Task
+     * @throws TaskNotFoundException if no task exists with the given ID
+     */
+    public Task setTaskEnabled(int taskId, boolean enabled) {
+        Task task = findTaskById(taskId);
+        task.setEnabled(enabled);
+        return taskRepository.save(task);
+    }
+
+    /**
+     * Permanently deletes a task by ID.
+     *
+     * @param taskId ID of the task
+     * @throws TaskNotFoundException if no task exists with the given ID
+     */
+    public void deleteTask(int taskId) {
+        Task task = findTaskById(taskId);
+        taskRepository.delete(task);
+        log.info("Deleted task with ID: {}", taskId);
+    }
+
 }
