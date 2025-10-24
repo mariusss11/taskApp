@@ -7,7 +7,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const groupService = new GroupService()
 
-const CreateGroupForm = () => {
+type CreateGroupFormType = {
+    closeModal: () => void
+}
+
+const CreateGroupForm = ({closeModal}:CreateGroupFormType) => {
     const {register, handleSubmit, formState: {errors}} = useForm<CreateGroupType>()
     const queryClient = useQueryClient()
     const { mutate } = useMutation({
@@ -18,13 +22,14 @@ const CreateGroupForm = () => {
     })
     const onSubmit: SubmitHandler<CreateGroupType> = async (data) => {
         mutate(data)
+        closeModal()
     }
 
     return <form onSubmit={(handleSubmit(onSubmit))} className="create-form">
         <FormField name="name" labelText="Name" inputElement={<input className="profile-form-input" {...register("name", {required: true, minLength: 3})}  />} />
         {errors.name && <p className="profile-alert input-alert">Name is required and must be longer than three characters</p>}
         <FormField name="description" labelText="Description" inputElement={<textarea className="profile-form-input form-text-area"></textarea>} />
-        <button className="submit-form" type="submit">Create</button>
+        <button  className="submit-form" type="submit">Create</button>
     </form>
 }
 

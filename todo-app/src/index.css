@@ -4,6 +4,10 @@
 	border: none;
 }
 
+body{
+	overflow: hidden;
+}
+
 *,
 *::before,
 *::after {
@@ -84,4 +88,8 @@ label {
 
 legend {
 	display: block;
+}
+
+option{
+	text-transform: capitalize;
 }

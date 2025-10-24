@@ -130,6 +130,7 @@ body{
   color: #fff;
   transition: color .3s ease-in-out;
   padding-left: 30px;
+  text-transform: capitalize;
 }
 
 .groups-item__link:hover{
@@ -139,11 +140,10 @@ body{
 .groups-item:not(:last-child){
   margin-bottom: 10px;
 }
-
 .close-aside.active{
   position: fixed;
   left: 20px;
-  top: 40px;
+  top: 50px;
   display: block;
 }
 
@@ -327,4 +327,253 @@ body{
 
 .close-modal{
   transition: opacity .3s ease-in-out;
+}
+
+.form-selections__select{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.select-item *{
+  display: block;
+}
+
+.select-input{
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 4px 10px;
+  margin-top: 10px;
+}
+
+/* tasks-list */
+
+.profile-title{
+  font-size: 32px;
+  color: #757575;
+}
+
+.tasks-list__header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* filter */
+.filter-form{
+  position: absolute;
+  right: -200%;
+  transition: right .5s ease-in-out;
+}
+
+.filter-button{
+  font-size: 20px;
+  color: #757575;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.filter-form{
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.progress-radio{
+  display: flex;
+  justify-content: left;
+  color: #000;
+  gap: 10px;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.filter-content{
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 15px;
+}
+
+.filter-form.active{
+  right: 50px;
+}
+
+.filter-dates{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-radios{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 134px;
+}
+
+.progress-radio__input{
+  appearance: none;
+  border: 1px solid #000;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.progress-radio__input#not-done:checked{
+  background-color: #FF0000;
+}
+
+.progress-radio__input#done:checked{
+  background-color: #00FF00;
+}
+.progress-radio__input#in-progress:checked{
+  background-color: #FFD900;
+}
+
+.progress-radio__input#not-done{
+  border-color: #FF0000;
+}
+
+.progress-radio__input#done{
+  border-color: #00FF00;
+}
+
+.progress-radio__input#in-progress{
+  border-color: #FFD900;
+}
+
+.progress-radio__label#not-done{
+  color: #FF0000;
+}
+
+.progress-radio__label#done{
+  color: #00FF00;
+}
+
+.progress-radio__label#in-progress{
+  color: #FFD900;
+}
+
+.tasks-list__content{
+  overflow: auto;
+}
+
+.deadline{
+  color: #757575;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.task-general-info{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-title{
+  max-width: 300px;
+  width: 100%;
+  font-size: 20px;
+}
+
+.task-title::first-letter{
+  text-transform: uppercase;
+}
+
+.progress-dropdown{
+  max-width: 160px;
+  width: 100%;
+  font-size: 20px;
+}
+
+.task-item:not(:last-child){
+  margin-bottom: 10px;
+}
+
+.task-detailed__info{
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height, padding .3s ease-in-out;
+}
+
+.task-detailed__info.active{
+  max-height: 300px;
+  padding: 15px 0px;
+}
+
+.dropdown-image{
+  transition: transform .3s ease-in-out;
+  height: 20px;
+  width: 20px;
+}
+
+.dropdown-image.active{
+  transform: rotate(180deg);
+}
+
+.progress-dropdown{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.task-progress#not_done{
+  color: #FF0000;
+}
+
+.task-progress#in_process{
+  color: #FFD900;
+}
+
+.task-progress#done{
+  color: #00FF00;
+}
+
+.task-create__date{
+  color: #BDBDBD;
+}
+
+.tasks-list__content{
+  overflow: auto;
+}
+
+.tasks-list{
+  overflow: auto;
+  max-height: calc(100vh - 44px);
+  height: 100%;
+  padding-bottom: 70px;
+  scrollbar-width:none;
+}
+
+.tasks-list__item{
+  margin-top: 30px;
+}
+
+.task-description{
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.group{
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+/* create task */
+
+.create-task__button{
+  font-size: 18px;
+  color: #757575;
+  transition: color .3s ease-in-out;
+}
+
+.create-task__button:hover{
+  color: #BDBDBD;
 }

@@ -2,8 +2,14 @@ import PageLayout from "./PageLayout";
 import TaskForm from "../../widgets/profile/TaskForm";
 import CustomModal from "../../shared/ui/CustomModal";
 import useModal from "../../shared/custom-hooks/useModal";
+import type { Group } from "../../shared/types/profile.types";
+import useGroups from "../../shared/custom-hooks/useGroups";
 
-const Content = (): React.JSX.Element => {
+type ContentType = {
+  groups: Group[]
+}
+
+const Content = ({groups}:ContentType): React.JSX.Element => {
   const modalProperties = useModal()
 
   return (
@@ -16,12 +22,8 @@ const Content = (): React.JSX.Element => {
       title="Create task"
         form={
           <TaskForm
-            formTitle="Create task"
-            title={undefined}
-            description={undefined}
-            deadline={undefined}
-            group={undefined}
-            groups={[1, 2, 3, 4]}
+            closeModal={modalProperties.closeModal}
+            groups={groups}
           />
         }
         closeModal={modalProperties.closeModal}
@@ -32,7 +34,9 @@ const Content = (): React.JSX.Element => {
 };
 
 const StartPage = (): React.JSX.Element => {
-  return <PageLayout content={<Content />} />;
+  const paths = useGroups()
+
+  return <PageLayout paths={paths} content={<Content groups={paths} />} />;
 };
 
 export default StartPage;
