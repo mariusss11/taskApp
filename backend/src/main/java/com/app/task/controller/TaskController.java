@@ -114,7 +114,6 @@ public class TaskController {
             @Valid @RequestBody ChangeTaskRequest request) {
 
         log.info("Updating status of task ID: {} to {}", taskId, request.getNewStatus());
-        request.setTaskId(taskId); // ensure path variable consistency
         TaskDTO updatedTask = taskService.changeTaskStatus(request);
         return ResponseEntity.ok(updatedTask);
     }
