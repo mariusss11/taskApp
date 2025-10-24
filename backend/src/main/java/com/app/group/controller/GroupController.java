@@ -41,7 +41,7 @@ public class GroupController {
      *
      * @return ResponseEntity containing a list of all {@link Group} objects
      */
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Group>> getAllGroups() {
         log.debug("Fetching all groups");
         List<Group> groups = groupService.getAllGroups();
