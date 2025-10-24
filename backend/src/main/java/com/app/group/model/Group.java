@@ -35,6 +35,9 @@ public class Group {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "is_enabled", columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean isEnabled;
+
     // Relations
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

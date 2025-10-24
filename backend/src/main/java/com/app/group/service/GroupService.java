@@ -127,4 +127,24 @@ public class GroupService {
         return groupRepository.findById(groupId)
                 .orElseThrow(() -> new GroupNotFoundException("Group not found with ID: " + groupId));
     }
+
+
+    public Group setGroupEnabled(int groupId, boolean enabled) {
+        Group group = getGroup(groupId);
+
+        group.setEnabled(enabled);
+        groupRepository.save(group);
+
+        log.info("Group ID {} is now {}", groupId, enabled ? "ENABLED" : "DISABLED");
+        return group;
+    }
+
+    public void deleteGroup(int groupId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new GroupNotFoundException("Group not found with ID: " + groupId));
+
+        groupRepository.delete(group);
+        log.info("Deleted group ID {}", groupId);
+    }
+
 }
