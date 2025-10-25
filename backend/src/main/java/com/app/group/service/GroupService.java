@@ -8,6 +8,7 @@ import com.app.group.model.CreateGroupRequest;
 import com.app.group.model.Group;
 import com.app.group.repository.GroupRepository;
 import com.app.task.model.Task;
+import com.app.task.repository.TaskRepository;
 import com.app.task.service.TaskService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
     private final UserService userService;
-    private final TaskService taskService;
+    private final TaskRepository taskRepository;
 
     /**
      * Constructs a {@link GroupService} with required dependencies.
@@ -36,10 +37,10 @@ public class GroupService {
      * @param groupRepository repository for group persistence
      * @param userService     service for retrieving the current logged-in user
      */
-    public GroupService(GroupRepository groupRepository, UserService userService, TaskService taskService) {
+    public GroupService(GroupRepository groupRepository, UserService userService, TaskRepository taskRepository) {
         this.groupRepository = groupRepository;
         this.userService = userService;
-        this.taskService = taskService;
+        this.taskRepository = taskRepository;
     }
 
     // -------------------------------------------------------------------------
@@ -162,7 +163,7 @@ public class GroupService {
     public List<Group> getAllGroupsWithTasks() {
         List<Group> allGroups = getAllGroups();
         for (Group group : allGroups) {
-            List<Task> groupsTasks = taskService.getTasksByGroupId(group.getId());
+            List<Task> groupsTasks = taskRepository.findByGroup_Id(group.getId());
             group.setTasks(groupsTasks);
         }
         return allGroups;

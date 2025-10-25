@@ -35,19 +35,13 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final UserService userService;
     private final GroupService groupService;
-    private final JwtUtils jwtUtils;
-    private final HttpServletRequest httpRequest;
 
     @Autowired
     public TaskService(TaskRepository taskRepository,
-                       UserService userService, GroupService groupService,
-                       JwtUtils jwtUtils,
-                       HttpServletRequest httpRequest) {
+                       UserService userService, GroupService groupService) {
         this.taskRepository = taskRepository;
         this.userService = userService;
         this.groupService = groupService;
-        this.jwtUtils = jwtUtils;
-        this.httpRequest = httpRequest;
     }
 
     // -------------------------------------------------------------------------
