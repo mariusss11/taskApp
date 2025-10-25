@@ -25,7 +25,7 @@ const Content = () => {
 
   return (
     <div className="tasks-list__content">
-      <div className="tasks-list__header">
+      <div className="tasks-app__header">
         <div className="profile-title">Tasks list</div>
         <button
           onClick={modalProperties2.openModal}

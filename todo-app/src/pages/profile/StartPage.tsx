@@ -9,7 +9,7 @@ const Content = (): React.JSX.Element => {
 
   return (
     <div className="start-page">
-      <h1 className="title">Create a new task</h1>
+      <h1 className="title">Create new task</h1>
       <button onClick={modalProperties.openModal} className="start-work">
         Let's start
       </button>

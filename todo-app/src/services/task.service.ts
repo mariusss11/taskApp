@@ -28,8 +28,9 @@ class TaskService{
 
     async getAllEnabledTasks(){
         const token = localStorage.getItem("userAuth")
+        const id = localStorage.getItem("userId")
         try {
-            const response = await axios.get(`${this.path}allEnabled`,{
+            const response = await axios.get(`${this.path}users/${id}/tasks`,{
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
@@ -70,7 +71,7 @@ class TaskService{
     async changeTaskStatus(id:number, status: string){
         try {
             const token = localStorage.getItem("userAuth")
-            const response = await axios.put(`${this.path}changeStatus`,{
+            await axios.put(`${this.path}`,{
                 taskId: id,
                 newStatus: status
             },
@@ -79,7 +80,6 @@ class TaskService{
                     Authorization: `Bearer ${token}`
                 }
             })
-            return response.status
         } catch (error) {
             console.error(error)
         }

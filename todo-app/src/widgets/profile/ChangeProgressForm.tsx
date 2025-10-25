@@ -16,7 +16,7 @@ const ChangeProgressForm = ({id, closeModal}:ChangeType):React.JSX.Element => {
     const { mutate } = useMutation({
         mutationFn: async (data:ProgressType) => {
             const taskService = new TaskService()
-            const response = await taskService.changeTaskStatus(id, String(data.progress))
+            await taskService.changeTaskStatus(id, String(data.progress))
             console.log(data.progress)
         },
         onSuccess: () => {
