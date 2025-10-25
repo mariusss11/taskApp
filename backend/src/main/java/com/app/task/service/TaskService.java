@@ -223,4 +223,7 @@ public class TaskService {
         log.info("Deleted task with ID: {}", taskId);
     }
 
+    public List<Task> getTasksByGroupId(int groupId) {
+        return taskRepository.findByGroup_Id(groupId);
+    }
 }

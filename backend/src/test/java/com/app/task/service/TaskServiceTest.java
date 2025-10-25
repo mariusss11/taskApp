@@ -12,18 +12,30 @@ import com.app.task.model.CreateTaskRequest;
 import com.app.task.model.Task;
 import com.app.task.model.TaskStatus;
 import com.app.task.repository.TaskRepository;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * ✅ Unit tests for {@link TaskService}.
+ */
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class TaskServiceTest {
 
     @Mock private TaskRepository taskRepository;
@@ -41,13 +53,14 @@ class TaskServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-
+        // Initialize basic mock objects
         mockUser = new User();
         mockUser.setId(1);
+        mockUser.setName("testuser");
 
         mockGroup = new Group();
         mockGroup.setId(100);
+        mockGroup.setName("Dev Team");
 
         mockTask = Task.builder()
                 .id(1)
@@ -133,23 +146,6 @@ class TaskServiceTest {
 
         assertThrows(InvalidTaskException.class, () -> taskService.createTask(request));
     }
-
-    // -------------------------------------------------------------------------
-    // 🔹 changeTaskStatus()
-    // -------------------------------------------------------------------------
-//    @Test
-//    void changeTaskStatus_ShouldUpdateStatus() {
-//        ChangeTaskRequest request = new ChangeTaskRequest();
-//        request.setTaskId(1);
-//        request.setNewStatus(TaskStatus.DONE.dbValue());
-//
-//        when(taskRepository.findById(1)).thenReturn(Optional.of(mockTask));
-//
-//        taskService.changeTaskStatus(request);
-//
-//        verify(taskRepository).save(mockTask);
-//        assertEquals(TaskStatus.DONE.dbValue(), mockTask.getStatus());
-//    }
 
     // -------------------------------------------------------------------------
     // 🔹 setTaskEnabled()

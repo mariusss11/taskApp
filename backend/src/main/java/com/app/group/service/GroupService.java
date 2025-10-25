@@ -7,6 +7,8 @@ import com.app.group.exception.InvalidGroupException;
 import com.app.group.model.CreateGroupRequest;
 import com.app.group.model.Group;
 import com.app.group.repository.GroupRepository;
+import com.app.task.model.Task;
+import com.app.task.service.TaskService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class GroupService {
 
     private final GroupRepository groupRepository;
     private final UserService userService;
+    private final TaskService taskService;
 
     /**
      * Constructs a {@link GroupService} with required dependencies.
@@ -33,9 +36,10 @@ public class GroupService {
      * @param groupRepository repository for group persistence
      * @param userService     service for retrieving the current logged-in user
      */
-    public GroupService(GroupRepository groupRepository, UserService userService) {
+    public GroupService(GroupRepository groupRepository, UserService userService, TaskService taskService) {
         this.groupRepository = groupRepository;
         this.userService = userService;
+        this.taskService = taskService;
     }
 
     // -------------------------------------------------------------------------
@@ -155,4 +159,16 @@ public class GroupService {
     }
 
 
+    public List<Group> getAllGroupsWithTasks() {
+        List<Group> allGroups = getAllGroups();
+        for (Group group : allGroups) {
+            List<Task> groupsTasks = taskService.getTasksByGroupId(group.getId());
+            group.setTasks(groupsTasks);
+        }
+        return allGroups;
+    }
+
+    public List<Group> getAllUsersGroupsWithTasks(int userId) {
+        return null;
+    }
 }

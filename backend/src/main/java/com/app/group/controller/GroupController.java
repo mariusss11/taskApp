@@ -48,12 +48,26 @@ public class GroupController {
         return ResponseEntity.ok(groups);
     }
 
+    @GetMapping("/all-with-tasks")
+    public ResponseEntity<List<Group>> getAllGroupsWithTasks() {
+        log.debug("Fetching all groups with specific tasks");
+        return ResponseEntity.ok(groupService.getAllGroupsWithTasks());
+    }
+
     @GetMapping("/{userId}/all")
     public ResponseEntity<List<Group>> getUsersGroups(
             @PathVariable int userId
     ) {
         log.debug("Fetching all user's with id {} groups", userId);
         return ResponseEntity.ok(groupService.getAllUsersGroups(userId));
+    }
+
+    @GetMapping("/{userId}/all-with-tasks")
+    public ResponseEntity<List<Group>> getAllUsersGroupsWithTasks(
+            @PathVariable int userId
+    ) {
+        log.debug("Fetching all users groups with specific tasks");
+        return ResponseEntity.ok(groupService.getAllUsersGroupsWithTasks(userId));
     }
 
     // -------------------------------------------------------------------------
