@@ -11,10 +11,9 @@ const customStyles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     color: "#000",
-    maxWidth: 524,
-    width: "100%",
     borderRadius: 5,
-    padding: 40
+    padding: 40,
+    transition: "all .4s ease-in-out",
   },
 };
 

@@ -4,10 +4,11 @@ import type { SubmitHandler } from "react-hook-form"
 import FormField from "../../shared/ui/profile/content/form/FormField"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import TaskService from "../../services/task.service"
+import useGroups from "../../shared/custom-hooks/useGroups"
 
 const taskService = new TaskService()
 
-const TaskForm = ({groups, closeModal}:TaskFormType):React.JSX.Element => {
+const TaskForm = ({closeModal}:TaskFormType):React.JSX.Element => {
     const { register, handleSubmit } = useForm<TaskType>()
     const queryClient = useQueryClient()
     const { mutate } = useMutation({
@@ -22,6 +23,8 @@ const TaskForm = ({groups, closeModal}:TaskFormType):React.JSX.Element => {
     const onSubmit: SubmitHandler<TaskType> = (data) => {
         mutate(data)
     }
+
+    const groups = useGroups()
 
     return <form onSubmit={handleSubmit(onSubmit)} className="task-form">
         <div className="task-form__content">

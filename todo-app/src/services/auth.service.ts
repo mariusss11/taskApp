@@ -10,6 +10,7 @@ class AuthService{
             if(response.status == 200){
                 const responseData = response.data
                 localStorage.setItem("userAuth", responseData.message)
+                localStorage.setItem("userId", responseData.data.id)
                 return "Success"
             }
         } catch (error) {
@@ -31,6 +32,10 @@ class AuthService{
             console.error(error)
         }
         
+    }
+
+    async whoAmI(){
+       
     }
 
     async logout(){

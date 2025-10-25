@@ -1,15 +1,17 @@
-import type { Group } from "./profile.types"
+import type { Dispatch, SetStateAction } from "react"
 
 export interface TaskType{
-    title: string
-    description: string
-    deadline: string
-    group: number
+    id: number,
+    title: string,
+    description: string,
+    deadline: string,
+    creationDate: string,
+    progress: string,
+    groupName: string
 }
 
 
 export interface TaskFormType{
-    groups: Group[] | undefined
     closeModal: () => void
 }
 
@@ -26,15 +28,22 @@ export interface FilterType{
 }
 
 export interface ITask{
+    id: number
     title: string
     description: string | undefined
     deadline: string
     progress: string
     creationDate: string
     groupName: string
+    ref: React.RefObject<() => void>
+    setId: Dispatch<SetStateAction<number>>
 }
 
 export interface DeadlineTaskType{
     deadline: string
     tasks: ITask[]
+}
+
+export interface ProgressType{
+    progress: string | undefined
 }
