@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+
+    private final String USER_NOT_FOUND_MSG = "User not found";
 
     /**
      * Constructs a UserServiceImpl with required dependencies.
@@ -101,12 +102,10 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<?> login(LoginRequest loginRequest) {
         log.info("Inside login()");
 
-        log.info("Request: {}", loginRequest);
-
         Optional<User> optionalUser = userRepository.findByEmail(loginRequest.getEmail());
         if (optionalUser.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Response.builder().message("User not found").build());
+                    .body(Response.builder().message(USER_NOT_FOUND_MSG).build());
         }
 
         User user = optionalUser.get();
@@ -150,7 +149,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
         if (optionalUser.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Response.builder().message("User not found").build());
+                    .body(Response.builder().message(USER_NOT_FOUND_MSG).build());
         }
 
         User user = optionalUser.get();
@@ -182,7 +181,7 @@ public class UserServiceImpl implements UserService {
     public User getCurrentLoggedInUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));
     }
 
 
