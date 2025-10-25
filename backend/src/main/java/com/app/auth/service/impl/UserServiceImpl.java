@@ -185,25 +185,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
-    /**
-     * Returns information about the currently authenticated user.
-     *
-     * @return Response containing the current User
-     */
-    @Override
-    public Response<User> whoami() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Auth: {}", auth);
-
-        String email = auth.getName();
-        User user = getUserByEmail(email);
-
-        return Response.<User>builder()
-                .statusCode(HttpStatus.OK.value())
-                .data(user)
-                .message("Successfully finished the whoami method")
-                .build();
-    }
 
     // -------------------------------------------------------------------------
     // 🔹 USER MANAGEMENT

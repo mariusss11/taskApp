@@ -48,6 +48,14 @@ public class GroupController {
         return ResponseEntity.ok(groups);
     }
 
+    @GetMapping("/{userId}/all")
+    public ResponseEntity<List<Group>> getUsersGroups(
+            @PathVariable int userId
+    ) {
+        log.debug("Fetching all user's with id {} groups", userId);
+        return ResponseEntity.ok(groupService.getAllUsersGroups(userId));
+    }
+
     // -------------------------------------------------------------------------
     // 🔹 CREATE GROUP
     // -------------------------------------------------------------------------

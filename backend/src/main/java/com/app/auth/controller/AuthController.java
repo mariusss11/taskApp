@@ -97,7 +97,7 @@ public class AuthController {
      * @return Response containing the current User
      */
     @GetMapping("/whoami")
-    public Response<User> whoami() {
-        return userService.whoami();
+    public ResponseEntity<User> whoami() {
+        return ResponseEntity.ok(userService.getCurrentLoggedInUser());
     }
 }

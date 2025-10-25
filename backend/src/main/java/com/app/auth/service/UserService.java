@@ -14,8 +14,6 @@ public interface UserService {
 
     User getCurrentLoggedInUser();
 
-    Response<User> whoami();
-
     String disableUser(String email);
 
     ResponseEntity<?> changePassword(PasswordChangeRequest request);

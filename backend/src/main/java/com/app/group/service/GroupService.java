@@ -52,10 +52,17 @@ public class GroupService {
         return groupRepository.findAll();
     }
 
+    public List<Group> getAllUsersGroups(int userId) {
+        log.debug("Fetching users groups");
+        return groupRepository.findByUser_Id(userId);
+    }
+
+
     public Group getGroup(int groupId) {
         log.debug("Fetching group with ID: {}", groupId);
         return findGroupById(groupId);
     }
+
 
     // -------------------------------------------------------------------------
     // 🔹 CREATE GROUP
@@ -146,5 +153,6 @@ public class GroupService {
         groupRepository.delete(group);
         log.info("Deleted group ID {}", groupId);
     }
+
 
 }

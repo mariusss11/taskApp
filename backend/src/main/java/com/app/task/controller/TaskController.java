@@ -104,16 +104,14 @@ public class TaskController {
     /**
      * Updates the status of a task.
      *
-     * @param taskId  ID of the task to update
      * @param request DTO containing the new status
      * @return ResponseEntity containing the updated {@link TaskDTO}
      */
-    @PutMapping("/{taskId}/status")
+    @PutMapping("/status")
     public ResponseEntity<TaskDTO> changeTaskStatus(
-            @PathVariable int taskId,
             @Valid @RequestBody ChangeTaskRequest request) {
 
-        log.info("Updating status of task ID: {} to {}", taskId, request.getNewStatus());
+        log.info("Updating status of task ID: {} to {}",request.getTaskId(), request.getNewStatus());
         TaskDTO updatedTask = taskService.changeTaskStatus(request);
         return ResponseEntity.ok(updatedTask);
     }
